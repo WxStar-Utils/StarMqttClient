@@ -123,4 +123,25 @@ public partial class StarMqttClient
 
         await _mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
     }
+
+    /// <summary>
+    /// Publishes a run cue for the specified presentation ID
+    /// </summary>
+    /// <param name="presentationId">The presentation ID of a loaded presentation.</param>
+    /// <param name="startTime">System timestamp to begin the presentation at.</param>
+    public async Task PublishRunCue(string presentationId, DateTime startTime)
+    {
+        var runCommand = new RunCue()
+        {
+            StartTime = startTime.ToString(),
+            CueId = presentationId,
+        };
+
+        var applicationMessage = new MqttApplicationMessageBuilder()
+            .WithTopic("wxstar/cues")
+            .WithPayload(JsonSerializer.Serialize(runCommand))
+            .Build();
+
+        await _mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
+    }
 }
