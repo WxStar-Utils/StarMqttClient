@@ -4,6 +4,12 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Authors>mewtek</Authors>
+        <Description>MQTT client library for WeatherStar server applications</Description>
+        <Copyright>AGPL v3.0</Copyright>
+        <RepositoryUrl>https://github.com/wxstar-srp/starmqttclient</RepositoryUrl>
+        <Company>WxStarSRP</Company>
     </PropertyGroup>
 
     <ItemGroup>
