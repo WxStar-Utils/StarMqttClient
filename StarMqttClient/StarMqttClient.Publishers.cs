@@ -133,7 +133,7 @@ public partial class StarMqttClient
     {
         var runCommand = new RunCue()
         {
-            StartTime = startTime.ToString(),
+            StartTime = startTime.ToString("dd/MM/yyyy HH:mm:ss:00"),
             CueId = presentationId,
         };
 
