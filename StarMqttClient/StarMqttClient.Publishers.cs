@@ -99,4 +99,45 @@ public partial class StarMqttClient
 
         await _mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
     }
+
+    /// <summary>
+    /// Publishes presentation cue information.
+    /// </summary>
+    /// <param name="starModel">Generic version of WeatherStar model.</param>
+    /// <param name="cueList">List containing the individual unit cue information.</param>
+    /// <param name="presentationId">The presentation ID, called later by a run presentation cue.</param>
+    public async Task PublishLoadCue(WxStarModel starModel, List<LoadCue> cueList, string presentationId)
+    {
+        string topic;
+
+        switch (starModel)
+        {
+            case WxStarModel.IntelliStar:
+                topic = "wxstar/cues/i1";
+                break;
+            case WxStarModel.IntelliStar2:
+                topic = "wxstar/cues/i2";
+                break;
+            case WxStarModel.WeatherStarXl:
+                throw new NotImplementedException();
+            default:
+                throw new ArgumentException("MQTT publishing commands only permit generic unit families.");
+        }
+
+        if (cueList.Count < 1)
+            return;
+
+        var cueCommandRoot = new LoadCueRoot()
+        {
+            CueId = presentationId,
+            Cues = cueList
+        };
+
+        var applicationMessage = new MqttApplicationMessageBuilder()
+            .WithTopic(topic)
+            .WithPayload(JsonSerializer.Serialize(cueCommandRoot))
+            .Build();
+
+        await _mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
+    }
 }
