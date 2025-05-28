@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MQTTnet" Version="4.3.7.1207" />
+      <PackageReference Include="StarAPI.NET" Version="1.0.0" />
+    </ItemGroup>
+
 </Project>
