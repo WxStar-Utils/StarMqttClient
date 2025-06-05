@@ -48,6 +48,23 @@ public partial class StarMqttClient
         await _mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
     }
     
+    
+    public async Task PublishDataBurst(WxStarModel starModel, List<StarData> starDataList, bool national, string? starUuid)
+    {
+        if (starDataList.Count == 0)
+        {
+            return;
+        }
+        
+        foreach (var data in starDataList)
+        {
+            await PublishData(starModel, data, national, starUuid);
+
+            await Task.Delay(5 * 1000);      // Small delay to avoid flooding on receivers
+        }
+    }
+    
+    
     /// <summary>
     /// Publishes formatted WeatherStar commands.
     /// </summary>
@@ -91,6 +108,19 @@ public partial class StarMqttClient
             .Build();
 
         await _mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
+    }
+
+    public async Task PublishCommandBurst(WxStarModel starModel, List<string> commands, bool national, string? starUuid)
+    {
+        if (commands.Count == 0)
+        {
+            return;
+        }
+
+        foreach (string command in commands)
+        {
+            await PublishCommand(starModel, command, national, starUuid);
+        }
     }
 
     /// <summary>
