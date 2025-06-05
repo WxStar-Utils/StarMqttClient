@@ -11,11 +11,10 @@ public partial class StarMqttClient
     /// Publishes data files as a string and sends the correct command format for the Star model specified.
     /// </summary>
     /// <param name="starModel">Generic version of WeatherStar model.</param>
-    /// <param name="data">Star data file as a string.</param>
-    /// <param name="command">Command to run. {0} can be used as a substitute for a filename.</param>
+    /// <param name="starData">StarData object.</param>
     /// <param name="national">Setting to true sends the command to the national feed for the specified StarModel.</param>
     /// <param name="starUuid">Optional, when set publishes data command to a specific unit instead of globally.</param>
-    public async Task PublishData(WxStarModel starModel, string data, string command, bool national, string? starUuid)
+    public async Task PublishData(WxStarModel starModel, StarData starData, bool national, string? starUuid)
     {
         string topic;
 
@@ -40,16 +39,10 @@ public partial class StarMqttClient
             }
             
         }
-
-        StarData dataCommand = new()
-        {
-            Command = command,
-            Data = data
-        };
-
+        
         var applicationMessage = new MqttApplicationMessageBuilder()
             .WithTopic(topic)
-            .WithPayload(JsonSerializer.Serialize(dataCommand))
+            .WithPayload(JsonSerializer.Serialize(starData))
             .Build();
 
         await _mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
