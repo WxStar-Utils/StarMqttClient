@@ -3,7 +3,7 @@ using MQTTnet.Client;
 
 namespace StarMqttClient;
 
-public partial class StarMqttClient
+public partial class BrokerClient
 {
     private readonly IMqttClient _mqttClient;
     private readonly string _host;
@@ -12,7 +12,7 @@ public partial class StarMqttClient
     private readonly string _password;
     public string ClientId { get; }
 
-    public StarMqttClient(string host, int port, string username, string password, string clientId)
+    public BrokerClient(string host, int port, string username, string password, string clientId)
     {
         _host = host;
         _port = port;

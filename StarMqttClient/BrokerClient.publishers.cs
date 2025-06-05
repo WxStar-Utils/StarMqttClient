@@ -5,7 +5,7 @@ using WxStarManager.Models;
 
 namespace StarMqttClient;
 
-public partial class StarMqttClient 
+public partial class BrokerClient 
 {
     /// <summary>
     /// Publishes data files as a string and sends the correct command format for the Star model specified.
