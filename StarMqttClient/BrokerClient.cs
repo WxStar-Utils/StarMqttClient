@@ -47,5 +47,10 @@ public partial class BrokerClient
     {
         await _mqttClient.DisconnectAsync();
     }
+
+    public bool IsConnected()
+    {
+        return _mqttClient.IsConnected;
+    }
     
 }
