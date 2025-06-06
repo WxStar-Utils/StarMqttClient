@@ -13,8 +13,9 @@ public partial class BrokerClient
     /// <param name="starModel">Generic version of WeatherStar model.</param>
     /// <param name="starData">StarData object.</param>
     /// <param name="national">Setting to true sends the command to the national feed for the specified StarModel.</param>
+    /// <param name="priority">Determines whether to send the data over a receiver's priority message port.</param>
     /// <param name="starUuid">Optional, when set publishes data command to a specific unit instead of globally.</param>
-    public async Task PublishData(WxStarModel starModel, StarData starData, bool national, string? starUuid)
+    public async Task PublishData(WxStarModel starModel, StarData starData, bool national, bool priority, string? starUuid)
     {
         string topic;
 
@@ -27,10 +28,10 @@ public partial class BrokerClient
             switch (starModel)
             {
                 case WxStarModel.IntelliStar:
-                    topic = "wxstar/data" + (national ? "/national/" : "/") + "i1";
+                    topic = "wxstar/data" + (national ? "/national/" : "/") + "i1" + (priority ? "/priority" : "");
                     break;
                 case WxStarModel.IntelliStar2:
-                    topic = "wxstar/data" + (national ? "/national/" : "/") + "i2";
+                    topic = "wxstar/data" + (national ? "/national/" : "/") + "i2" + (priority ? "/priority" : "");
                     break;
                 case WxStarModel.WeatherStarXl:
                     throw new NotImplementedException();
@@ -49,7 +50,7 @@ public partial class BrokerClient
     }
     
     
-    public async Task PublishDataBurst(WxStarModel starModel, List<StarData> starDataList, bool national, string? starUuid)
+    public async Task PublishDataBurst(WxStarModel starModel, List<StarData> starDataList, bool national, bool priority, string? starUuid)
     {
         if (starDataList.Count == 0)
         {
@@ -58,7 +59,7 @@ public partial class BrokerClient
         
         foreach (var data in starDataList)
         {
-            await PublishData(starModel, data, national, starUuid);
+            await PublishData(starModel, data, national, priority, starUuid);
 
             await Task.Delay(5 * 1000);      // Small delay to avoid flooding on receivers
         }
