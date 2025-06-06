@@ -61,7 +61,7 @@ public partial class BrokerClient
         {
             await PublishData(starModel, data, national, priority, starUuid);
 
-            await Task.Delay(5 * 1000);      // Small delay to avoid flooding on receivers
+            await Task.Delay(500);      // Small delay to avoid flooding on receivers
         }
     }
     
