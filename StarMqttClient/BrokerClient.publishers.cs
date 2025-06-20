@@ -157,7 +157,7 @@ public partial class BrokerClient
     {
         var runCommand = new RunCue()
         {
-            StartTime = startTime.ToString("dd/MM/yyyy HH:mm:ss:00"),
+            StartTime = startTime.ToString("MM/dd/yyyy HH:mm:ss:00"),
             CueId = presentationId,
         };
 
